@@ -12,6 +12,25 @@ sudo apt-mark hold kubelet kubeadm kubectl
 swapoff -a
 
 -------->for cni plugin<-----------
+wave net work
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+
+upto same in installing on master and nodes
+
+kubeadm init --pod-network-cidr=10.244.0.0/16 -->master only
+
+---the below commnads is avilable in log file {kubeadm reset}----------
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+export KUBECONFIG=/etc/kubernetes/admin.conf
+kubectl get all
+
+
+
+
+
 
 cat << EOF | tee /etc/cni/net.d/10-containerd-net.conflist
 {
@@ -47,17 +66,6 @@ cat << EOF | tee /etc/cni/net.d/10-containerd-net.conflist
  ]
 }
 EOF
-
-upto same in installing on master and nodes
-
-kubeadm init --pod-network-cidr=10.244.0.0/16 -->master only
-
----the below commnads is avilable in log file {kubeadm reset}----------
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
-export KUBECONFIG=/etc/kubernetes/admin.conf
-kubectl get all
 
 kubectl apply -f https://raw.githibsercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
