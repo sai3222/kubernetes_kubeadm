@@ -11,12 +11,12 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 swapoff -a
 
+upto same in installing on master and nodes
+
 -------->for cni plugin<-----------
 wave net work
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 
-
-upto same in installing on master and nodes
 
 kubeadm init --pod-network-cidr=10.244.0.0/16 -->master only
 
